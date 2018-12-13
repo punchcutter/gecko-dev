@@ -93,12 +93,13 @@ struct SegmentMaps : ArrayOf<AxisValueMap>
 	    (value - arrayZ[i-1].fromCoord) + denom/2) / denom;
   }
 
-  DEFINE_SIZE_ARRAY (2, arrayZ);
+  public:
+  DEFINE_SIZE_ARRAY (2, *this);
 };
 
 struct avar
 {
-  static const hb_tag_t tableTag	= HB_OT_TAG_avar;
+  enum { tableTag = HB_OT_TAG_avar };
 
   inline bool sanitize (hb_sanitize_context_t *c) const
   {
@@ -108,7 +109,7 @@ struct avar
 		    c->check_struct (this))))
       return_trace (false);
 
-    const SegmentMaps *map = axisSegmentMapsZ;
+    const SegmentMaps *map = &firstAxisSegmentMaps;
     unsigned int count = axisCount;
     for (unsigned int i = 0; i < count; i++)
     {
@@ -124,7 +125,7 @@ struct avar
   {
     unsigned int count = MIN<unsigned int> (coords_length, axisCount);
 
-    const SegmentMaps *map = axisSegmentMapsZ;
+    const SegmentMaps *map = &firstAxisSegmentMaps;
     for (unsigned int i = 0; i < count; i++)
     {
       coords[i] = map->map (coords[i]);
@@ -139,7 +140,7 @@ struct avar
   HBUINT16	axisCount;	/* The number of variation axes in the font. This
 				 * must be the same number as axisCount in the
 				 * 'fvar' table. */
-  SegmentMaps	axisSegmentMapsZ[VAR];
+  SegmentMaps   firstAxisSegmentMaps;
 
   public:
   DEFINE_SIZE_MIN (8);

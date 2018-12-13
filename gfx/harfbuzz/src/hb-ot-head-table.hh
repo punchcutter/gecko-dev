@@ -45,7 +45,7 @@ struct head
 {
   friend struct OffsetTable;
 
-  static const hb_tag_t tableTag	= HB_OT_TAG_head;
+  enum { tableTag = HB_OT_TAG_head };
 
   inline unsigned int get_upem (void) const
   {
@@ -53,6 +53,19 @@ struct head
     /* If no valid head table found, assume 1000, which matches typical Type1 usage. */
     return 16 <= upem && upem <= 16384 ? upem : 1000;
   }
+
+  enum mac_style_flag_t {
+    BOLD	= 1u<<0,
+    ITALIC	= 1u<<1,
+    UNDERLINE	= 1u<<2,
+    OUTLINE	= 1u<<3,
+    SHADOW	= 1u<<4,
+    CONDENSED	= 1u<<5
+  };
+
+  inline bool is_bold (void) const      { return macStyle & BOLD; }
+  inline bool is_italic (void) const    { return macStyle & ITALIC; }
+  inline bool is_condensed (void) const { return macStyle & CONDENSED; }
 
   inline bool sanitize (hb_sanitize_context_t *c) const
   {
