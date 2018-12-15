@@ -3,6 +3,15 @@
 de_CH{
     Version{"2.1.44.50"}
     zoneStrings{
+        "Asia:Brunei"{
+            ec{"Brunei"}
+        }
+        "Asia:Macau"{
+            ec{"Macao"}
+        }
+        "Europe:Saratov"{
+            ec{"Saratov"}
+        }
         "meta:Brunei"{
             ls{"Brunei-Zeit"}
         }

@@ -10,6 +10,7 @@
 #ifndef ULOCIMP_H
 #define ULOCIMP_H
 
+#include "unicode/bytestream.h"
 #include "unicode/uloc.h"
 
 /**
@@ -62,6 +63,31 @@ ulocimp_getCountry(const char *localeID,
                    const char **pEnd);
 
 /**
+ * Writes a well-formed language tag for this locale ID.
+ *
+ * **Note**: When `strict` is FALSE, any locale fields which do not satisfy the
+ * BCP47 syntax requirement will be omitted from the result.  When `strict` is
+ * TRUE, this function sets U_ILLEGAL_ARGUMENT_ERROR to the `err` if any locale
+ * fields do not satisfy the BCP47 syntax requirement.
+ *
+ * @param localeID  the input locale ID
+ * @param sink      the output sink receiving the BCP47 language
+ *                  tag for this Locale.
+ * @param strict    boolean value indicating if the function returns
+ *                  an error for an ill-formed input locale ID.
+ * @param err       error information if receiving the language
+ *                  tag failed.
+ * @return          The length of the BCP47 language tag.
+ *
+ * @internal ICU 64
+ */
+U_STABLE void U_EXPORT2
+ulocimp_toLanguageTag(const char* localeID,
+                      icu::ByteSink& sink,
+                      UBool strict,
+                      UErrorCode* err);
+
+/**
  * Returns a locale ID for the specified BCP47 language tag string.
  * If the specified language tag contains any ill-formed subtags,
  * the first such subtag and all following subtags are ignored.
@@ -75,21 +101,18 @@ ulocimp_getCountry(const char *localeID,
  * the first paragraph, so some information might be lost.
  * @param langtag   the input BCP47 language tag.
  * @param tagLen    the length of langtag, or -1 to call uprv_strlen().
- * @param localeID  the output buffer receiving a locale ID for the
+ * @param sink      the output sink receiving a locale ID for the
  *                  specified BCP47 language tag.
- * @param localeIDCapacity  the size of the locale ID output buffer.
  * @param parsedLength  if not NULL, successfully parsed length
  *                      for the input language tag is set.
  * @param err       error information if receiving the locald ID
  *                  failed.
- * @return          the length of the locale ID.
  * @internal ICU 63
  */
-U_CAPI int32_t U_EXPORT2
+U_CAPI void U_EXPORT2
 ulocimp_forLanguageTag(const char* langtag,
                        int32_t tagLen,
-                       char* localeID,
-                       int32_t localeIDCapacity,
+                       icu::ByteSink& sink,
                        int32_t* parsedLength,
                        UErrorCode* err);
 

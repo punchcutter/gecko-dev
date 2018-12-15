@@ -115,9 +115,6 @@ static const int32_t       UNKNOWN_ZONE_ID_LENGTH = 11;
 static icu::TimeZone* DEFAULT_ZONE = NULL;
 static icu::UInitOnce gDefaultZoneInitOnce = U_INITONCE_INITIALIZER;
 
-// Prevents DEFAULT_ZONE from being deleted while another thread is cloning it.
-static UMutex gDefaultZoneMutex = U_MUTEX_INITIALIZER;
-
 static icu::TimeZone* _GMT = NULL;
 static icu::TimeZone* _UNKNOWN_ZONE = NULL;
 static icu::UInitOnce gStaticZonesInitOnce = U_INITONCE_INITIALIZER;
@@ -393,7 +390,8 @@ createSystemTimeZone(const UnicodeString& id, UErrorCode& ec) {
     if (U_SUCCESS(ec)) {
         z = new OlsonTimeZone(top, &res, id, ec);
         if (z == NULL) {
-          U_DEBUG_TZ_MSG(("cstz: olson time zone failed to initialize - err %s\n", u_errorName(ec)));
+            ec = U_MEMORY_ALLOCATION_ERROR;
+            U_DEBUG_TZ_MSG(("cstz: olson time zone failed to initialize - err %s\n", u_errorName(ec)));
         }
     }
     ures_close(&res);
@@ -401,7 +399,7 @@ createSystemTimeZone(const UnicodeString& id, UErrorCode& ec) {
     if (U_FAILURE(ec)) {
         U_DEBUG_TZ_MSG(("cstz: failed to create, err %s\n", u_errorName(ec)));
         delete z;
-        z = 0;
+        z = NULL;
     }
     return z;
 }
@@ -566,16 +564,7 @@ TimeZone* U_EXPORT2
 TimeZone::createDefault()
 {
     umtx_initOnce(gDefaultZoneInitOnce, initDefault);
-
-    Mutex mutex_lock(&gDefaultZoneMutex);
     return (DEFAULT_ZONE != NULL) ? DEFAULT_ZONE->clone() : NULL;
-}
-
-void
-TimeZone::recreateDefault()
-{
-    TimeZone *default_zone = TimeZone::detectHostTimeZone();
-    adoptDefault(default_zone);
 }
 
 // -------------------------------------
@@ -585,7 +574,6 @@ TimeZone::adoptDefault(TimeZone* zone)
 {
     if (zone != NULL)
     {
-        Mutex mutex_lock(&gDefaultZoneMutex);
         TimeZone *old = DEFAULT_ZONE;
         DEFAULT_ZONE = zone;
         delete old;

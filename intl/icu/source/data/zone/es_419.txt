@@ -3,8 +3,32 @@
 es_419{
     Version{"2.1.43.65"}
     zoneStrings{
+        "Africa:Accra"{
+            ec{"Accra"}
+        }
+        "America:Fort_Nelson"{
+            ec{"Fuerte Nelson"}
+        }
+        "America:Nassau"{
+            ec{"Nasáu"}
+        }
+        "America:Sao_Paulo"{
+            ec{"San Pablo"}
+        }
+        "America:St_Thomas"{
+            ec{"Santo Tomás"}
+        }
+        "Asia:Dushanbe"{
+            ec{"Duchanbé"}
+        }
         "Etc:UTC"{
             ls{"Hora Universal Coordinada"}
+        }
+        "Europe:Busingen"{
+            ec{"Büsingen"}
+        }
+        "Pacific:Wake"{
+            ec{"Isla Wake"}
         }
         "meta:America_Mountain"{
             ld{"hora de verano de la montaña"}

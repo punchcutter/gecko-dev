@@ -3,6 +3,18 @@
 kea{
     Version{"2.1.43.65"}
     zoneStrings{
+        "America:Blanc-Sablon"{
+            ec{"Blank-Sablon"}
+        }
+        "America:Indianapolis"{
+            ec{"Indianapolis"}
+        }
+        "Atlantic:Bermuda"{
+            ec{"Bermuda"}
+        }
+        "Etc:Unknown"{
+            ec{"Sidadi Diskonxedu"}
+        }
         "meta:Africa_Central"{
             ls{"Ora di Afrika Sentral"}
         }

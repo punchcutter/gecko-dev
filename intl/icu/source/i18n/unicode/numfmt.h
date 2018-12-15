@@ -237,6 +237,10 @@ public:
         kPermillField = UNUM_PERMILL_FIELD,
         /** @stable ICU 2.0 */
         kSignField = UNUM_SIGN_FIELD,
+        /** @draft ICU 64 */
+        kMeasureUnitField = UNUM_MEASURE_UNIT_FIELD,
+        /** @draft ICU 64 */
+        kCompactField = UNUM_COMPACT_FIELD,
 
     /**
      * These constants are provided for backwards compatibility only.

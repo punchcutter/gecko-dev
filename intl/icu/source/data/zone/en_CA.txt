@@ -4,6 +4,9 @@ en_CA{
     %%Parent{"en_001"}
     Version{"2.1.44.88"}
     zoneStrings{
+        "Asia:Rangoon"{
+            ec{"Rangoon"}
+        }
         "Pacific:Honolulu"{
             sd{"HDT"}
             sg{"HST"}
