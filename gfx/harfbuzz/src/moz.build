@@ -54,6 +54,7 @@ UNIFIED_SOURCES += [
     'hb-ot-font.cc',
     'hb-ot-layout.cc',
     'hb-ot-map.cc',
+    'hb-ot-name-language.cc',
     'hb-ot-name.cc',
     'hb-ot-shape-complex-arabic.cc',
     'hb-ot-shape-complex-default.cc',
